@@ -85,7 +85,7 @@ def create():
 @app.route("/healthz")
 def health():
     return app.response_class(
-        response=json.dump({"result": "OK - Healthy"}),
+        response=json.dumps({"result": "OK - Healthy"}),
         status=200
     )
 
