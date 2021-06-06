@@ -86,7 +86,8 @@ def create():
 def health():
     return app.response_class(
         response=json.dumps({"result": "OK - Healthy"}),
-        status=200
+        status=200,
+        mimetype='application/json'
     )
 
 @app.route("/metrics")
@@ -96,8 +97,9 @@ def metrics():
     postsNumber = len(posts)
     connection.close()
     return app.response_class(
-        response = json.dump({"db_connecition_count": 5, "post_count": postsNumber}),
-        status=200
+        response = json.dumps({"db_connecition_count": 5, "post_count": postsNumber}),
+        status=200,
+        mimetype='application/json'
         )
 
 # start the application on port 3111
