@@ -106,3 +106,5 @@ def metrics():
 if __name__ == "__main__":
    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
    app.run(host='0.0.0.0', port='3111')
+
+
