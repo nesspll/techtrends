@@ -7,9 +7,11 @@ from werkzeug.exceptions import abort
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
+conn_num = {'dbconnections': 0}
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
+    conn_num['dbconnections'] += 1
     return connection
 
 # Function to get a post using its ID
@@ -97,14 +99,17 @@ def metrics():
     postsNumber = len(posts)
     connection.close()
     return app.response_class(
-        response = json.dumps({"db_connecition_count": 5, "post_count": postsNumber}),
+        response = json.dumps({"db_connecition_count": str(conn_num.get('dbconnections')), "post_count": postsNumber}),
         status=200,
         mimetype='application/json'
         )
 
 # start the application on port 3111
 if __name__ == "__main__":
-   logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-   app.run(host='0.0.0.0', port='3111')
+    stdout_handler = sys.stdout
+    stderr_handler = sys.stderr
+    handlers = [stderr_handler, stdout_handler]
+    logging.basicConfig(format=format_output, level=logging.DEBUG, handlers=handlers)
+    app.run(host='0.0.0.0', port='3111')
 
 
